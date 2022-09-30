@@ -10,7 +10,6 @@ import java.util.UUID;
 @RestController
 public class TestController {
 
-
     @GetMapping("/test")
     public BaseResponse<String> test(@RequestParam(name ="requestId", required = false, defaultValue = "") String requestId) {
         return new BaseResponse<>(

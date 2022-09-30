@@ -1,4 +1,4 @@
-package com.playground.jeq.springtestapp.Config;
+package com.playground.jeq.springtestapp.Config.Filter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
