@@ -17,14 +17,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class WebSecurityConfiguration{
 
-    private JwtAuthenticationEntryPoint authenticationEntryPoint;
+    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private UserDetailsService userDetailsService;
-    private JwtFilter filter;
 
-    public WebSecurityConfiguration(JwtAuthenticationEntryPoint authenticationEntryPoint, UserDetailsService userDetailsService, JwtFilter filter) {
-        this.authenticationEntryPoint = authenticationEntryPoint;
+    private JwtFilter jwtFilter;
+
+    public WebSecurityConfiguration(JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint, UserDetailsService userDetailsService, JwtFilter jwtFilter) {
+        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
         this.userDetailsService = userDetailsService;
-        this.filter = filter;
+        this.jwtFilter = jwtFilter;
     }
 
     @Bean
@@ -43,10 +44,10 @@ public class WebSecurityConfiguration{
                 .authorizeRequests().antMatchers("/login").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
+                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

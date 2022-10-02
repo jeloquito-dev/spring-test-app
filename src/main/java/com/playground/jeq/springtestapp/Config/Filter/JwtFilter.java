@@ -2,8 +2,6 @@ package com.playground.jeq.springtestapp.Config.Filter;
 
 import com.playground.jeq.springtestapp.Config.Utility.JwtUserDetailsService;
 import com.playground.jeq.springtestapp.Config.Utility.TokenManager;
-import io.jsonwebtoken.ExpiredJwtException;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,6 +21,9 @@ public class JwtFilter extends OncePerRequestFilter {
     private JwtUserDetailsService jwtUserDetailsService;
     private TokenManager tokenManager;
 
+    private final String HEADER = "Authorization";
+    private final String BEARER = "Bearer ";
+
     public JwtFilter(JwtUserDetailsService jwtUserDetailsService, TokenManager tokenManager) {
         this.jwtUserDetailsService = jwtUserDetailsService;
         this.tokenManager = tokenManager;
@@ -31,31 +32,28 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        String tokenHeader = request.getHeader("Authorization");
+        String tokenHeader = request.getHeader(HEADER);
         String username = null;
         String token = null;
 
-        if (tokenHeader != null && tokenHeader.startsWith("Bearer ")) {
-            token = tokenHeader.substring(7);
-            try {
-                username = tokenManager.getUsernameFromToken(token);
-            } catch (IllegalArgumentException e) {
-                System.out.println("Unable to get JWT Token");
-            } catch (ExpiredJwtException e) {
-                System.out.println("JWT Token has expired");
-            }
-        } else {
-            System.out.println("Bearer String not found in token");
-        }
+        if (tokenHeader != null && tokenHeader.startsWith(BEARER)) {
+            token = tokenHeader.substring(BEARER.length());
 
-        if (null != username && SecurityContextHolder.getContext().getAuthentication() == null) {
+            username = tokenManager.getUsernameFromToken(token);
 
-            UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(username);
-            if (tokenManager.validateJwtToken(token, userDetails)) {
-                UsernamePasswordAuthenticationToken authenticationToken =
-                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+            if (null != username && SecurityContextHolder.getContext().getAuthentication() == null) {
+
+                UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(username);
+                if (tokenManager.validateJwtToken(token, userDetails)) {
+
+                    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                            userDetails,
+                            null,
+                            userDetails.getAuthorities());
+
+                    authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                }
             }
         }
 

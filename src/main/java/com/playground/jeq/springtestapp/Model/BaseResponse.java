@@ -26,4 +26,5 @@ public class BaseResponse<T> {
     public void setRequest(T request) {
         this.request = request;
     }
+
 }

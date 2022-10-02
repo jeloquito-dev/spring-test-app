@@ -7,36 +7,44 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class TokenManager implements Serializable {
+public class TokenManager {
 
-    private static final long serialVersionUID = 7008375124389347049L;
-    public static final long TOKEN_VALIDITY = 10 * 60 * 60;
+    public static final long TOKEN_VALIDITY = 12 * 60 * 60; //12 Hours
 
-    @Value("${secret}")
-    private String jwtSecret;
+    @Value("${jwt.secret.key}")
+    private String jwtSecretKey;
 
     public String generateJwtToken(UserDetails userDetails) {
+        Date issuedDateTime = new Date(System.currentTimeMillis());
+        Date expirationDateTime = new Date(System.currentTimeMillis() + TOKEN_VALIDITY * 1000);
         Map<String, Object> claims = new HashMap<>();
-        return Jwts.builder().setClaims(claims).setSubject(userDetails.getUsername())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + TOKEN_VALIDITY * 1000))
-                .signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
+
+        return Jwts.builder()
+                .setClaims(claims)
+                .setSubject(userDetails.getUsername())
+                .setIssuedAt(issuedDateTime)
+                .setExpiration(expirationDateTime)
+                .signWith(SignatureAlgorithm.HS512, jwtSecretKey).compact();
     }
     public Boolean validateJwtToken(String token, UserDetails userDetails) {
-        String username = getUsernameFromToken(token);
-        Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
+        Claims claims = Jwts.parser().setSigningKey(jwtSecretKey).parseClaimsJws(token).getBody();
+        String username = claims.getSubject();
         boolean isTokenExpired = claims.getExpiration().before(new Date());
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired);
+        boolean isSameUsername = username.equals(userDetails.getUsername());
+
+        return (isSameUsername && !isTokenExpired);
     }
 
     public String getUsernameFromToken(String token) {
-        final Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
-        return claims.getSubject();
+        //Return the subject which contains the username
+        return Jwts.parser()
+                .setSigningKey(jwtSecretKey)
+                .parseClaimsJws(token)
+                .getBody().getSubject();
     }
 }
