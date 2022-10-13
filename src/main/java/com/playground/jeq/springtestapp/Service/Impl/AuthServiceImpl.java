@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Base64;
 import java.util.Map;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -55,7 +56,7 @@ public class AuthServiceImpl implements AuthService {
 
     private String authenticateUser(UserRequest userRequest) {
         String username = userRequest.getUsername();
-        String password = userRequest.getPassword();
+        String password = decodeBase64Password(userRequest.getPassword());
 
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 
@@ -73,5 +74,7 @@ public class AuthServiceImpl implements AuthService {
                 tokens.get("refresh_token"));
     }
 
-
+    private String decodeBase64Password(String password) {
+        return new String(Base64.getDecoder().decode(password.getBytes()));
+    }
 }
