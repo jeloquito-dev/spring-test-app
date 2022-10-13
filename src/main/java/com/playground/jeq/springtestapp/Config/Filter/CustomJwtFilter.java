@@ -27,8 +27,6 @@ public class CustomJwtFilter extends OncePerRequestFilter {
     private UserDetailsService userDetailsService;
     private TokenManager tokenManager;
 
-    private final String BEARER = "Bearer ";
-
     public CustomJwtFilter(UserDetailsService userDetailsService, TokenManager tokenManager) {
         this.userDetailsService = userDetailsService;
         this.tokenManager = tokenManager;
@@ -37,14 +35,13 @@ public class CustomJwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        if(request.getServletPath().equals("/api/login")) {
+        if(request.getServletPath().equals("/api/auth/login")
+                || request.getServletPath().equals("/api/auth/refresh")) {
             filterChain.doFilter(request, response);
         } else {
-            String authorizationHeader = request.getHeader(AUTHORIZATION);
-            String token = null;
-            if (authorizationHeader != null && authorizationHeader.startsWith(BEARER)) {
-                token = authorizationHeader.substring(BEARER.length());
+            String token = tokenManager.identifyToken(request);
 
+            if (null != token) {
                 if (SecurityContextHolder.getContext().getAuthentication() == null) {
                     try {
                         UsernamePasswordAuthenticationToken authenticationToken = tokenManager.getAuthenticationToken(token);
@@ -58,9 +55,9 @@ public class CustomJwtFilter extends OncePerRequestFilter {
                         error.put("error_message", e.getMessage());
                         new ObjectMapper().writeValue(response.getOutputStream(), error);
                     }
-
                 }
             }
+
             filterChain.doFilter(request, response);
         }
     }

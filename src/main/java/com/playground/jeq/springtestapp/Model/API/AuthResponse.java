@@ -1,16 +1,16 @@
 package com.playground.jeq.springtestapp.Model.API;
 
-public class LoginResponse {
+public class AuthResponse {
 
     private String access_token;
     private String refresh_token;
 
-    public LoginResponse(String access_token, String refresh_token) {
+    public AuthResponse(String access_token, String refresh_token) {
         this.access_token = access_token;
         this.refresh_token = refresh_token;
     }
 
-    public LoginResponse() {
+    public AuthResponse() {
     }
 
     public String getAccess_token() {
