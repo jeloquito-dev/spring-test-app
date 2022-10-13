@@ -1,5 +1,6 @@
 package com.playground.jeq.springtestapp.Config.Filter;
 
+import com.playground.jeq.springtestapp.Config.Utility.CommonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -17,10 +18,15 @@ public class RequestResponseLoggingFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
         HttpServletRequest request = (HttpServletRequest) servletRequest;
-        LOGGER.info("Starting a transaction for req : {}", request.getMethod() + " : " + request.getRequestURI());
 
+        String log_message = new StringBuilder()
+                .append("transaction request: ")
+                .append("id: ").append(CommonUtil.getRequestId(request)).append(" | ")
+                .append("method: ").append(request.getMethod()).append(" | ")
+                .append("uri: ").append(request.getRequestURI()).toString();
+
+        LOGGER.info("Initiating {}", log_message);
         chain.doFilter(request, response);
-
-        LOGGER.info("Committing a transaction for req : {}", request.getMethod() + " : " +  request.getRequestURI());
+        LOGGER.info("Committing {}", log_message);
     }
 }

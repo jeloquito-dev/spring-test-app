@@ -1,7 +1,10 @@
 package com.playground.jeq.springtestapp.Config.Filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.playground.jeq.springtestapp.Config.Utility.CommonUtil;
 import com.playground.jeq.springtestapp.Config.Utility.TokenManager;
+import com.playground.jeq.springtestapp.Model.API.BaseResponse;
+import com.playground.jeq.springtestapp.Model.API.ErrorResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,8 +19,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static com.playground.jeq.springtestapp.Config.Utility.StringReference.*;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -35,8 +39,10 @@ public class CustomJwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        if(request.getServletPath().equals("/api/auth/login")
-                || request.getServletPath().equals("/api/auth/refresh")) {
+        request.setAttribute(REQUEST_ID, UUID.randomUUID().toString());
+
+        if(request.getServletPath().equals(AUTH_BASE + AUTH_LOGIN)
+                || request.getServletPath().equals(AUTH_BASE + AUTH_REFRESH)) {
             filterChain.doFilter(request, response);
         } else {
             String token = tokenManager.identifyToken(request);
@@ -45,15 +51,19 @@ public class CustomJwtFilter extends OncePerRequestFilter {
                 if (SecurityContextHolder.getContext().getAuthentication() == null) {
                     try {
                         UsernamePasswordAuthenticationToken authenticationToken = tokenManager.getAuthenticationToken(token);
-
                         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                     } catch (Exception e) {
                         response.setStatus(FORBIDDEN.value());
                         response.setContentType(APPLICATION_JSON_VALUE);
-                        Map<String, String> error = new HashMap<>();
-                        error.put("error_message", e.getMessage());
-                        new ObjectMapper().writeValue(response.getOutputStream(), error);
+                        new ObjectMapper().writeValue(
+                                response.getOutputStream(),
+                                new BaseResponse<>(
+                                        CommonUtil.getRequestId(request),
+                                        FORBIDDEN.value(),
+                                        new ErrorResponse(e.getMessage())
+                                )
+                        );
                     }
                 }
             }
