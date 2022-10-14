@@ -69,4 +69,15 @@ public class AppUser {
     public void setRoles(Collection<Role> roles) {
         this.roles = roles;
     }
+
+    @Override
+    public String toString() {
+        return "AppUser{" +
+                "id=" + id +
+                ", fullName='" + fullName + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", roles=" + roles +
+                '}';
+    }
 }
