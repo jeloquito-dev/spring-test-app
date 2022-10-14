@@ -13,7 +13,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -39,11 +38,11 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
     }
 
     @Override
-    @Transactional
     public void addRoleToAppUser(String username, String roleDescription) {
         Role role = roleRepository.findByDescription(roleDescription);
         AppUser appUser = appUserRepository.findByUsername(username);
         appUser.getRoles().add(role);
+        appUserRepository.save(appUser);
     }
 
     @Override
