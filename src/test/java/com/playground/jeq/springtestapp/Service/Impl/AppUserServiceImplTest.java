@@ -1,12 +1,10 @@
 package com.playground.jeq.springtestapp.Service.Impl;
 
-import com.playground.jeq.springtestapp.Model.AppUser;
-import com.playground.jeq.springtestapp.Model.Role;
+import com.playground.jeq.springtestapp.Model.Entity.AppUser;
+import com.playground.jeq.springtestapp.Model.Entity.Role;
 import com.playground.jeq.springtestapp.Repository.AppUserRepository;
 import com.playground.jeq.springtestapp.Repository.RoleRepository;
-import com.playground.jeq.springtestapp.Service.AppUserService;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -17,13 +15,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;

@@ -1,6 +1,6 @@
 package com.playground.jeq.springtestapp.Service;
 
-import com.playground.jeq.springtestapp.Model.AppUser;
+import com.playground.jeq.springtestapp.Model.Entity.AppUser;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

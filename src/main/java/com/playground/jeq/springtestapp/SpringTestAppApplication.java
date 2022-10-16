@@ -1,7 +1,7 @@
 package com.playground.jeq.springtestapp;
 
-import com.playground.jeq.springtestapp.Model.AppUser;
-import com.playground.jeq.springtestapp.Model.Role;
+import com.playground.jeq.springtestapp.Model.Entity.AppUser;
+import com.playground.jeq.springtestapp.Model.Entity.Role;
 import com.playground.jeq.springtestapp.Service.AppUserService;
 import com.playground.jeq.springtestapp.Service.RoleService;
 import org.springframework.boot.CommandLineRunner;

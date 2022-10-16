@@ -1,4 +1,4 @@
-package com.playground.jeq.springtestapp.Model.API;
+package com.playground.jeq.springtestapp.Model.API.Response;
 
 public class ErrorResponse {
 

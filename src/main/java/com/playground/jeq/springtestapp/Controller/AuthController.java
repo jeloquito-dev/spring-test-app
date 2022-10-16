@@ -1,9 +1,9 @@
 package com.playground.jeq.springtestapp.Controller;
 
 import com.playground.jeq.springtestapp.Config.Utility.CommonUtil;
-import com.playground.jeq.springtestapp.Model.API.AuthResponse;
-import com.playground.jeq.springtestapp.Model.API.BaseResponse;
-import com.playground.jeq.springtestapp.Model.UserRequest;
+import com.playground.jeq.springtestapp.Model.API.Response.AuthResponse;
+import com.playground.jeq.springtestapp.Model.API.Response.BaseResponse;
+import com.playground.jeq.springtestapp.Model.API.Request.UserRequest;
 import com.playground.jeq.springtestapp.Service.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

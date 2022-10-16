@@ -1,4 +1,4 @@
-package com.playground.jeq.springtestapp.Model.API;
+package com.playground.jeq.springtestapp.Model.API.Response;
 
 import java.sql.Timestamp;
 

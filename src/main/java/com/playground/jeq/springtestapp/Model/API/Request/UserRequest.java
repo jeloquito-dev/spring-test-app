@@ -1,4 +1,4 @@
-package com.playground.jeq.springtestapp.Model;
+package com.playground.jeq.springtestapp.Model.API.Request;
 
 import java.io.Serializable;
 

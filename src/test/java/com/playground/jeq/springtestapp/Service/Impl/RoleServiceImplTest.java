@@ -1,6 +1,6 @@
 package com.playground.jeq.springtestapp.Service.Impl;
 
-import com.playground.jeq.springtestapp.Model.Role;
+import com.playground.jeq.springtestapp.Model.Entity.Role;
 import com.playground.jeq.springtestapp.Repository.RoleRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

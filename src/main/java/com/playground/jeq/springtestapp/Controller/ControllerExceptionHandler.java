@@ -2,8 +2,8 @@ package com.playground.jeq.springtestapp.Controller;
 
 import com.playground.jeq.springtestapp.Exception.InvalidAuthorizationException;
 import com.playground.jeq.springtestapp.Exception.InvalidRefreshTokenException;
-import com.playground.jeq.springtestapp.Model.API.BaseResponse;
-import com.playground.jeq.springtestapp.Model.API.ErrorResponse;
+import com.playground.jeq.springtestapp.Model.API.Response.BaseResponse;
+import com.playground.jeq.springtestapp.Model.API.Response.ErrorResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

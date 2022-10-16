@@ -1,16 +1,15 @@
 package com.playground.jeq.springtestapp.Config.Filter;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.playground.jeq.springtestapp.Config.Utility.CommonUtil;
-import com.playground.jeq.springtestapp.Config.Utility.TokenManager;
-import com.playground.jeq.springtestapp.Model.API.BaseResponse;
-import com.playground.jeq.springtestapp.Model.API.ErrorResponse;
+import com.playground.jeq.springtestapp.Config.Security.TokenManager;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -20,15 +19,17 @@ import java.io.IOException;
 import java.util.UUID;
 
 import static com.playground.jeq.springtestapp.Config.Utility.StringReference.*;
-import static org.springframework.http.HttpStatus.FORBIDDEN;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Component
-public class CustomJwtFilter extends OncePerRequestFilter {
+public class JwtFilter extends OncePerRequestFilter {
+
+    @Autowired
+    @Qualifier("handlerExceptionResolver")
+    private HandlerExceptionResolver resolver;
 
     private TokenManager tokenManager;
 
-    public CustomJwtFilter(TokenManager tokenManager) {
+    public JwtFilter(TokenManager tokenManager) {
         this.tokenManager = tokenManager;
     }
 
@@ -50,21 +51,12 @@ public class CustomJwtFilter extends OncePerRequestFilter {
                         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                     } catch (Exception e) {
-                        response.setStatus(FORBIDDEN.value());
-                        response.setContentType(APPLICATION_JSON_VALUE);
-                        new ObjectMapper().writeValue(
-                                response.getOutputStream(),
-                                new BaseResponse<>(
-                                        CommonUtil.getRequestId(request),
-                                        FORBIDDEN.value(),
-                                        new ErrorResponse(e.getMessage())
-                                )
-                        );
+                        CommonUtil.createForbiddenResponse(request, response, e);
                     }
                 }
             }
-
             filterChain.doFilter(request, response);
         }
+
     }
 }

@@ -1,6 +1,6 @@
 package com.playground.jeq.springtestapp.Controller;
 
-import com.playground.jeq.springtestapp.Model.API.BaseResponse;
+import com.playground.jeq.springtestapp.Model.API.Response.BaseResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;

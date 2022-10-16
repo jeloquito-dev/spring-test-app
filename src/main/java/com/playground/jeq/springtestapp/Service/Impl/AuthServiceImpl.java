@@ -1,10 +1,10 @@
 package com.playground.jeq.springtestapp.Service.Impl;
 
-import com.playground.jeq.springtestapp.Config.Utility.TokenManager;
+import com.playground.jeq.springtestapp.Config.Security.TokenManager;
 import com.playground.jeq.springtestapp.Exception.InvalidAuthorizationException;
 import com.playground.jeq.springtestapp.Exception.InvalidRefreshTokenException;
-import com.playground.jeq.springtestapp.Model.API.AuthResponse;
-import com.playground.jeq.springtestapp.Model.UserRequest;
+import com.playground.jeq.springtestapp.Model.API.Response.AuthResponse;
+import com.playground.jeq.springtestapp.Model.API.Request.UserRequest;
 import com.playground.jeq.springtestapp.Service.AuthService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

@@ -1,4 +1,6 @@
-package com.playground.jeq.springtestapp.Model;
+package com.playground.jeq.springtestapp.Model.Entity;
+
+import com.playground.jeq.springtestapp.Model.Entity.Role;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -25,6 +27,9 @@ public class AppUser {
         this.username = username;
         this.password = password;
         this.roles = roles;
+    }
+
+    public AppUser() {
     }
 
     public Long getId() {

@@ -1,4 +1,4 @@
-package com.playground.jeq.springtestapp.Model;
+package com.playground.jeq.springtestapp.Model.Entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,6 +15,9 @@ public class Role {
     public Role(Long id, String description) {
         this.id = id;
         this.description = description;
+    }
+
+    public Role() {
     }
 
     public Long getId() {

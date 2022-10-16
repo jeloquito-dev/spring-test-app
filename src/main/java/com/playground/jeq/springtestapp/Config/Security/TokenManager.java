@@ -1,4 +1,4 @@
-package com.playground.jeq.springtestapp.Config.Utility;
+package com.playground.jeq.springtestapp.Config.Security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -26,7 +26,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 public class TokenManager {
 
     public static final long HOUR = 60 * 60;
-    public static final long JWT_TOKEN_VALIDITY = 60; //1 Hour
+    public static final long JWT_TOKEN_VALIDITY = HOUR; //1 Hour
     public static final long REFRESH_TOKEN_VALIDITY = 6 * HOUR; //6 Hours
 
     private final ResourceBundle messages = ResourceBundle.getBundle("messages");

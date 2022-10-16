@@ -1,6 +1,6 @@
 package com.playground.jeq.springtestapp.Service.Impl;
 
-import com.playground.jeq.springtestapp.Model.Role;
+import com.playground.jeq.springtestapp.Model.Entity.Role;
 import com.playground.jeq.springtestapp.Repository.RoleRepository;
 import com.playground.jeq.springtestapp.Service.RoleService;
 import org.springframework.stereotype.Service;
