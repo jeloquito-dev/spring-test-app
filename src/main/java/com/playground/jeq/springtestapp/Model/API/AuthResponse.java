@@ -10,9 +10,6 @@ public class AuthResponse {
         this.refresh_token = refresh_token;
     }
 
-    public AuthResponse() {
-    }
-
     public String getAccess_token() {
         return access_token;
     }

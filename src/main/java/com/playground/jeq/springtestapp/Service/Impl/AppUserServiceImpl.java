@@ -22,7 +22,6 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
 
     private AppUserRepository appUserRepository;
     private RoleRepository roleRepository;
-
     private PasswordEncoder passwordEncoder;
 
     public AppUserServiceImpl(AppUserRepository appUserRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {

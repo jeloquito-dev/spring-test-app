@@ -22,7 +22,7 @@ public class UserController {
         this.appUserService = appUserService;
     }
 
-    @GetMapping(USER_ALL)
+    @GetMapping()
     public ResponseEntity<BaseResponse<List<AppUser>>> getAllAppUser() {
         return new ResponseEntity<>(
                 new BaseResponse<>("", 200, appUserService.getAllUser()),

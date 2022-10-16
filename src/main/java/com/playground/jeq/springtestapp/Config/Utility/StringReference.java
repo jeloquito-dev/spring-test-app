@@ -19,7 +19,7 @@ public class StringReference {
     public static final String AUTH_LOGIN = "/login";
     public static final String AUTH_REFRESH = "/refresh";
 
-    public static final String USER_BASE = "/api/user";
+    public static final String USER_BASE = "/api/users";
     public static final String USER_ALL = "/all";
 
 }

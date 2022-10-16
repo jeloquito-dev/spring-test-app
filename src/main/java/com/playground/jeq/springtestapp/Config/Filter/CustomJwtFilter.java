@@ -17,8 +17,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 import static com.playground.jeq.springtestapp.Config.Utility.StringReference.*;
@@ -28,11 +26,9 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Component
 public class CustomJwtFilter extends OncePerRequestFilter {
 
-    private UserDetailsService userDetailsService;
     private TokenManager tokenManager;
 
-    public CustomJwtFilter(UserDetailsService userDetailsService, TokenManager tokenManager) {
-        this.userDetailsService = userDetailsService;
+    public CustomJwtFilter(TokenManager tokenManager) {
         this.tokenManager = tokenManager;
     }
 

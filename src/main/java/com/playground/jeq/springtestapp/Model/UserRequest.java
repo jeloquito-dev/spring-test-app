@@ -2,13 +2,10 @@ package com.playground.jeq.springtestapp.Model;
 
 import java.io.Serializable;
 
-public class UserRequest implements Serializable {
+public class UserRequest {
 
-    private static final long serialVersionUID = 2636936156391265891L;
     private String username;
     private String password;
-    public UserRequest() {
-    }
     public UserRequest(String username, String password) {
         super();
         this.username = username; this.password = password;
