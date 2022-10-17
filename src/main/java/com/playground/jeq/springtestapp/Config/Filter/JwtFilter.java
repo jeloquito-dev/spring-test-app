@@ -36,7 +36,9 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        request.setAttribute(REQUEST_ID, UUID.randomUUID().toString());
+        String requestId = request.getParameter("requestId");
+        request.setAttribute (REQUEST_ID, (null == requestId || requestId.isBlank())
+                ? UUID.randomUUID().toString() : requestId);
 
         if(request.getServletPath().equals(AUTH_BASE + AUTH_LOGIN)
                 || request.getServletPath().equals(AUTH_BASE + AUTH_REFRESH)) {
